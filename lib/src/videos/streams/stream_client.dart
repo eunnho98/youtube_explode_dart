@@ -121,7 +121,7 @@ class StreamClient {
     try {
       // Use await for instead of yield* to catch exceptions
       await for (final stream
-          in _getStream(videoId, VideoController.iosClient)) {
+          in _getStream(videoId, VideoController.androidClient)) {
         yield stream;
       }
       if (fullManifest) {

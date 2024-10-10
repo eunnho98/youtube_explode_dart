@@ -18,7 +18,8 @@ class VideoController {
         "osName": "iPhone",
         "osVersion": "17.5.1.21F90",
         "timeZone": "UTC",
-        "userAgent": "com.google.ios.youtube/19.29.1 (iPhone16,2; U; CPU iOS 17_5_1 like Mac OS X;)",
+        "userAgent":
+            "com.google.ios.youtube/19.29.1 (iPhone16,2; U; CPU iOS 17_5_1 like Mac OS X;)",
         "gl": "US",
         "utcOffsetMinutes": 0
       }
@@ -29,8 +30,8 @@ class VideoController {
   static const androidClient = {
     'context': {
       'client': {
-        'clientName': 'ANDROID',
-        'clientVersion': '19.09.37',
+        'clientName': 'ANDROID_UNPLUGGED',
+        'clientVersion': '8.26.8771',
         'androidSdkVersion': 30,
         'userAgent':
             'com.google.android.youtube/19.09.37 (Linux; U; Android 11) gzip',
