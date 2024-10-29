@@ -216,7 +216,6 @@ class StreamClient {
       // Muxed or Video-only
       if (!videoCodec.isNullOrWhiteSpace) {
         final framerate = Framerate(stream.framerate ?? 24);
-        // TODO: Implement quality from itag
         final videoQuality = VideoQualityUtil.fromLabel(stream.qualityLabel);
 
         final videoWidth = stream.videoWidth;

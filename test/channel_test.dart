@@ -20,7 +20,6 @@ void main() {
     expect(channel.logoUrl, isNotEmpty);
     expect(channel.logoUrl, isNot(equalsIgnoringWhitespace('')));
 
-    // TODO: Investigate why sometimes the subscriber count is null
     if (channel.subscribersCount != null) {
       expect(channel.subscribersCount, greaterThanOrEqualTo(190));
     }

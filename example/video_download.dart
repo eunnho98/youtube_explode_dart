@@ -1,5 +1,3 @@
-//TODO: Fixing the console printing.
-
 import 'dart:async';
 import 'dart:io';
 
@@ -59,22 +57,22 @@ Future<void> download(String id) async {
   final len = audio.size.totalBytes;
   var count = 0;
 
-  // Create the message and set the cursor position.
+  // Create the message and set the cursor position
   final msg = 'Downloading ${video.title}.${audio.container.name}';
   stdout.writeln(msg);
 
-  // Listen for data received.
+  // Listen for data received
   await for (final data in audioStream) {
-    // Keep track of the current downloaded data.
     count += data.length;
-
-    // Calculate the current progress.
     final progress = ((count / len) * 100).ceil();
 
-    print(progress.toStringAsFixed(2));
+    // Update progress on same line using carriage return
+    stdout.write('\rProgress: ${progress.toString().padLeft(3)}%');
 
-    // Write to file.
     output.add(data);
   }
+
+  // Add a newline after download completes
+  stdout.writeln();
   await output.close();
 }

@@ -37,7 +37,7 @@ class WatchPage extends YoutubePage<WatchPageInitialData> {
     final url = root
         .querySelectorAll('script')
         .map((e) => e.attributes['src'])
-        .whereNotNull()
+        .nonNulls
         .firstWhereOrNull((e) => e.contains('player_ias') && e.endsWith('.js'));
     if (url == null) {
       return null;
@@ -109,7 +109,6 @@ class WatchPage extends YoutubePage<WatchPageInitialData> {
         .querySelectorAll('script')
         .map((e) => e.text)
         .toList(growable: false);
-    //TODO: Implement player response extraction from PlayerConfig if extracting from the script fails.
     return scriptText.extractGenericData(
       ['var ytInitialPlayerResponse = '],
       (root) => PlayerResponse(root),
