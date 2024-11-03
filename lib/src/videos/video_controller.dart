@@ -30,8 +30,8 @@ class VideoController {
   static const androidClient = {
     'context': {
       'client': {
-        'clientName': 'ANDROID_UNPLUGGED',
-        'clientVersion': '8.26.8771',
+        'clientName': 'ANDROID_VR',
+        'clientVersion': '1.51',
         'androidSdkVersion': 30,
         'userAgent':
             'com.google.android.youtube/19.09.37 (Linux; U; Android 11) gzip',
