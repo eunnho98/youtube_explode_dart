@@ -1,6 +1,10 @@
 import 'dart:async';
 
+import 'package:logging/logging.dart';
+
 import '../youtube_explode_dart.dart';
+
+final _logger = Logger('YoutubeExplode.Retry');
 
 /// Run the [function] each time an exception is thrown until the retryCount
 /// is 0.
@@ -15,11 +19,11 @@ Future<T> retry<T>(
     try {
       return await function();
       // ignore: avoid_catches_without_on_clauses
-    } on Exception catch (e) {
+    } on Exception catch (e, s) {
       if (client != null && client.closed) {
         throw HttpClientClosedException();
       }
-
+      _logger.warning('Retrying after exception: $e', e, s);
       retryCount -= getExceptionCost(e);
       if (retryCount <= 0) {
         rethrow;
@@ -36,6 +40,9 @@ int getExceptionCost(Exception e) {
   }
   if (e is FatalFailureException) {
     return 3;
+  }
+  if (e is VideoUnplayableException) {
+    return 5;
   }
   return 1;
 }

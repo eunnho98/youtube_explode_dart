@@ -161,7 +161,7 @@ extension StringUtility2 on String? {
     return false;
   }
 
-  /// Format: <quantity> <unit> ago (5 years ago)
+  /// Format: {quantity} {unit} ago (5 years ago)
   DateTime? toDateTime() {
     if (this == null) {
       return null;
@@ -253,7 +253,7 @@ extension GetOrNullMap on Map {
     return v;
   }
 
-  /// Get a List<Map<String, dynamic>>> from a map.
+  /// Get a [List<Map<String, dynamic>>>] from a map.
   List<Map<String, dynamic>>? getList(String key, [String? orKey]) {
     var v = this[key];
     if (v == null) {
@@ -271,6 +271,29 @@ extension GetOrNullMap on Map {
     }
 
     return v.toList().cast<Map<String, dynamic>>();
+  }
+
+  /// Access a value by using the json selection, for example contents/column/1/id
+  T? getJson<T>(String jsonPath) {
+    final parts = jsonPath.split('/');
+    dynamic value = this;
+    for (final part in parts) {
+      if (value is Map<String, dynamic>) {
+        value = value[part];
+      } else if (value is List<dynamic>) {
+        final index = int.tryParse(part);
+        if (index == null) {
+          return null;
+        }
+        if (index >= value.length) {
+          return null;
+        }
+        value = value[index];
+      } else {
+        return null;
+      }
+    }
+    return value as T;
   }
 }
 

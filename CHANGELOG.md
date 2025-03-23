@@ -1,3 +1,56 @@
+## 2.4.0
+- Update IOS client.
+- Implement visitor data extraction. Port from: https://github.com/Tyrrrz/YoutubeExplode/commit/84e29bb
+
+## 2.3.10
+- Update dev_dependencies
+- Fix #328. Shorts extraction from channel uploads.
+- Skip tests that always fail on GitHub actions.
+
+## 2.3.9
+- Fix HLS extraction.
+- Fix JSEngine: -, * operators.
+
+## 2.3.8
+- Simplify Playlist ID matching logic by @khaled-0 in https://github.com/Hexer10/youtube_explode_dart/pull/316
+- Fix Parsing JSON response for shorts by @JorWo in https://github.com/Hexer10/youtube_explode_dart/pull/313
+- Added if-null check for playlist video count by @codedbycurtis in https://github.com/Hexer10/youtube_explode_dart/pull/317
+- Fixes for JSEngine.
+
+## 2.3.7
+- Fixes JSON parsing for shorts data
+
+## 2.3.6
+- Update search playlists parsing due to yt changes.
+- Implement >,<,== operators for `VideoResolution`.
+
+## 2.3.5
+- Deprecated `YoutubeApiClient.tvSimpleEmbedded`.
+- Improve JSEngine
+
+## 2.3.4
+- Better HLS support
+
+## 2.3.3
+- Re-implement sig deciphering.
+
+## 2.3.2
+- Implement HLS streams parsing.
+- Add safari, tv, and androidVr yt clients.
+
+## 2.3.1
+- Implement small JSEngine to decipher stream signatures.
+- Add channel thumbnails in search results. Thanks to  BinaryQuantumSoul. #289
+- Add `requireWatchPage` parameter to `getManifest` to fetch streams without having to get the watchpage.
+ 
+## 2.3.0+1
+- Updated changelog.
+
+## 2.3.0
+- Implement `YoutubeApiClient` interface.
+- Add `ytClient` parameter to `StreamClient.getManifest`.
+- Implement more youtube api clients, see `StreamClient.getManifest` documentation or `youtube_api_client.dart` for more information.
+
 ## 2.2.3
 - Impersonate ios client to extract manifest.
 

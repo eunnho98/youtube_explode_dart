@@ -3,6 +3,7 @@ import 'package:http_parser/http_parser.dart';
 import '../../../reverse_engineering/models/fragment.dart';
 import '../../videos.dart';
 import '../models/audio_track.dart';
+import 'hls_stream_info.dart';
 
 /// Generic YouTube media stream.
 mixin StreamInfo {
@@ -29,7 +30,7 @@ mixin StreamInfo {
   /// Stream bitrate.
   Bitrate get bitrate;
 
-  /// DASH streams contain multiple stream fragments.
+  /// DASH/HLS streams contain multiple stream fragments.
   List<Fragment> get fragments;
 
   /// Streams codec.
@@ -65,19 +66,57 @@ extension StreamInfoIterableExt<T extends StreamInfo> on Iterable<T> {
 
   /// Print a formatted text of all the streams. Like youtube-dl -F option.
   String describe() {
-    final column = _Column(['format code', 'extension', 'resolution', 'note']);
-    for (final e in this) {
+    final column = _Column([
+      'format code',
+      'extension',
+      'resolution',
+      'quality',
+      'bitrate',
+      'size',
+      'codecs',
+      'info'
+    ]);
+    // Sort the streams:
+    // - First audio only streams.
+    // - Then sort by resolution.
+    // - Then sort by bitrate.
+    final sorted = toList()
+      ..sort((a, b) {
+        final aIsOnlyAudio =
+            (a is AudioOnlyStreamInfo) || (a is HlsAudioStreamInfo);
+        final bIsOnlyAudio =
+            (b is AudioOnlyStreamInfo) || (b is HlsAudioStreamInfo);
+
+        if (aIsOnlyAudio && !bIsOnlyAudio) {
+          return -1;
+        } else if (!aIsOnlyAudio && bIsOnlyAudio) {
+          return 1;
+        }
+
+        if (a is VideoStreamInfo && b is VideoStreamInfo) {
+          final resolution = a.videoResolution.compareTo(b.videoResolution);
+          if (resolution != 0) {
+            return resolution;
+          }
+        }
+        return a.bitrate.compareTo(b.bitrate);
+      });
+
+    for (final e in sorted) {
       column.write([
         e.tag,
         e.container.name,
         if (e is VideoStreamInfo) e.videoResolution else 'audio only',
-        e.qualityLabel,
-        e.bitrate,
+        if (e is VideoStreamInfo)
+          '${e.qualityLabel}${e.framerate.framesPerSecond}'
+        else
+          e.qualityLabel,
+        '${e is HlsStreamInfo ? '~' : ''}${e.bitrate}',
+        '${e is HlsStreamInfo ? '~' : ''}${e.size}',
         e.codec.parameters['codecs'],
-        if (e is VideoStreamInfo) e.framerate,
-        if (e is VideoOnlyStreamInfo) 'video only',
-        if (e is MuxedStreamInfo) 'muxed',
-        e.size,
+        if (e is VideoOnlyStreamInfo || e is HlsVideoStreamInfo) 'video only',
+        // if (e is AudioOnlyStreamInfo) 'audio only',
+        if (e is MuxedStreamInfo || e is HlsMuxedStreamInfo) 'muxed',
         if (e case AudioStreamInfo(:AudioTrack audioTrack))
           audioTrack.displayName,
       ]);
@@ -100,9 +139,19 @@ class _Column {
   String toString() {
     final headerLen = <int>[];
     final buffer = StringBuffer();
-    for (final e in header) {
-      headerLen.add(e.length + 2);
-      buffer.write('$e  ');
+
+    // Find the longest string for each column.
+    final longest = _values.map((e) {
+      return e
+          .reduce((value, element) =>
+              value.length > element.length ? value : element)
+          .length;
+    }).toList();
+
+    for (final (i, e) in header.indexed) {
+      final pad = longest[i] > (e.length + 2) ? longest[i] - e.length + 2 : 2;
+      headerLen.add(e.length + pad);
+      buffer.write(e.padRight(e.length + pad));
     }
     buffer.writeln();
 
@@ -112,6 +161,9 @@ class _Column {
         if (headerLen.length <= i) {
           buffer.write(', $v');
           continue;
+        }
+        if (v.length > headerLen[i]) {
+          headerLen[i] = v.length + 2;
         }
         buffer.write(v.padRight(headerLen[i]));
       }
