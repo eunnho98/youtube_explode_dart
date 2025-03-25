@@ -1,4 +1,4 @@
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'package:youtube_expplode_dart/youtube_explode_dart.dart';
 
 Future<void> main() async {
   final yt = YoutubeExplode();
@@ -10,12 +10,22 @@ Future<void> main() async {
   final manifest = await yt.videos.streams.getManifest('fRh_vgS2dFE',
       // You can also pass a list of preferred clients, otherwise the library will handle it:
       ytClients: [
-        YoutubeApiClient.ios,
-        YoutubeApiClient.androidVr,
+        YoutubeApiClient.safari,
+        // YoutubeApiClient.androidVr,
       ]);
 
   // Print all the available streams.
   print(manifest);
+  final urls = <VideoQalityUrls>[];
+        urls.addAll(
+          manifest.muxed.map(
+            (element) => VideoQalityUrls(
+              quality: int.parse(element.qualityLabel.split('p')[0]),
+              url: element.url.toString(),
+            ),
+          ),
+        );
+        print('urls: $urls');
 
   // Get the audio streams.
   final audio = manifest.audioOnly;
