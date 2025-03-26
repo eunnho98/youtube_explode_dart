@@ -43,7 +43,7 @@ class YoutubeApiClient {
     'context': {
       'client': {
         'clientName': 'ANDROID',
-        'clientVersion': '19.09.37',
+        'clientVersion': '19.24.100',
         'androidSdkVersion': 30,
         'userAgent':
             'com.google.android.youtube/19.09.37 (Linux; U; Android 11) gzip',
@@ -94,7 +94,7 @@ class YoutubeApiClient {
     'context': {
       'client': {
         'clientName': 'WEB',
-        'clientVersion': '2.20240726.00.00',
+        'clientVersion': '2.20220918',
         'userAgent':
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15,gzip(gfe)',
         'hl': 'en',
@@ -144,7 +144,19 @@ class YoutubeApiClient {
     'context': {
       'client': {
         'clientName': 'MWEB',
-        'clientVersion': '2.20240726.01.00',
+        'clientVersion': '2.20220918',
+        'hl': 'en',
+        'timeZone': 'UTC',
+        'utcOffsetMinutes': 0,
+      },
+    },
+  }, 'https://www.youtube.com/youtubei/v1/player?prettyPrint=false');
+
+  static const web_embedded_player = YoutubeApiClient({
+    'context': {
+      'client': {
+        'clientName': 'WEB_EMBEDDED_PLAYER',
+        'clientVersion': '9.20220918',
         'hl': 'en',
         'timeZone': 'UTC',
         'utcOffsetMinutes': 0,

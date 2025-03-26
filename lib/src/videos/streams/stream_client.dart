@@ -58,7 +58,18 @@ class StreamClient {
       List<YoutubeApiClient>? ytClients,
       bool requireWatchPage = true}) async {
     videoId = VideoId.fromString(videoId);
-    final clients = ytClients ?? [YoutubeApiClient.ios];
+    final clients = ytClients ??
+        [
+          YoutubeApiClient.ios,
+          YoutubeApiClient.android,
+          YoutubeApiClient.androidMusic,
+          YoutubeApiClient.androidVr,
+          YoutubeApiClient.safari,
+          YoutubeApiClient.tv,
+          YoutubeApiClient.mediaConnect,
+          YoutubeApiClient.mweb,
+          YoutubeApiClient.web_embedded_player,
+        ];
 
     final uniqueStreams = LinkedHashSet<StreamInfo>(
       equals: (a, b) {
