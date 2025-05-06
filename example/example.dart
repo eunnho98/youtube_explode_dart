@@ -4,10 +4,10 @@ Future<void> main() async {
   final yt = YoutubeExplode();
 
   // Get the video metadata.
-  final video = await yt.videos.get('UGzI-ABpy6k');
-  print(video.title); // ^ You can pass both video URLs or video IDs.
+  //final video = await yt.videos.get('UGzI-ABpy6k');
+  //print(video.title); // ^ You can pass both video URLs or video IDs.
 
-  final manifest = await yt.videos.streams.getManifest('fRh_vgS2dFE',
+  final manifest = await yt.videos.streams.getManifest('6BGmX2W6ano',
       // You can also pass a list of preferred clients, otherwise the library will handle it:
       ytClients: [
         YoutubeApiClient.ios,
