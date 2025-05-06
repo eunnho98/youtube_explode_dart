@@ -7,19 +7,7 @@ Future<void> main() async {
   //final video = await yt.videos.get('UGzI-ABpy6k');
   //print(video.title); // ^ You can pass both video URLs or video IDs.
 
-  final manifest = await yt.videos.streams.getManifest('6BGmX2W6ano',
-      // You can also pass a list of preferred clients, otherwise the library will handle it:
-      ytClients: [
-        YoutubeApiClient.ios,
-        YoutubeApiClient.android,
-        YoutubeApiClient.androidMusic,
-        YoutubeApiClient.androidVr,
-        YoutubeApiClient.safari,
-        YoutubeApiClient.tv,
-        YoutubeApiClient.mediaConnect,
-        YoutubeApiClient.mweb,
-        YoutubeApiClient.web_embedded_player,
-      ]);
+  final manifest = await yt.videos.streams.getManifest('6BGmX2W6ano');
 
   // Print all the available streams.
   print(manifest);

@@ -60,8 +60,8 @@ class StreamClient {
     videoId = VideoId.fromString(videoId);
     final clients = ytClients ??
         [
-          YoutubeApiClient.ios,
           YoutubeApiClient.android,
+          YoutubeApiClient.ios,
           YoutubeApiClient.androidMusic,
           YoutubeApiClient.androidVr,
           YoutubeApiClient.safari,
@@ -88,8 +88,11 @@ class StreamClient {
     );
 
     Object? lastException;
+    bool foundStreams = false;
 
     for (final client in clients) {
+      if (foundStreams) break;
+
       _logger.fine(
           'Getting stream manifest for video $videoId with client: ${client.payload['context']['client']['clientName']}');
       try {
@@ -97,6 +100,17 @@ class StreamClient {
           final streams = await _getStreams(videoId,
                   ytClient: client, requireWatchPage: requireWatchPage)
               .toList();
+          print(
+              "Try get streams from ${client.payload['context']['client']['clientName']}");
+
+          if (streams.whereType<MuxedStreamInfo>().isNotEmpty) {
+            uniqueStreams.addAll(streams);
+            print(
+                'get stream manifest for video $videoId with client: ${client.payload['context']['client']['clientName']}');
+            foundStreams = true;
+            return;
+          }
+
           if (streams.isEmpty) {
             throw VideoUnavailableException(
               'Video "$videoId" does not contain any playable streams.',
