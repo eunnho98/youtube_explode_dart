@@ -1,3 +1,10 @@
+## 2.4.2
+- Update safari client.
+- Fix signature deciphering.
+
+## 2.4.1
+- Update IOS client.
+
 ## 2.4.0
 - Update IOS client.
 - Implement visitor data extraction. Port from: https://github.com/Tyrrrz/YoutubeExplode/commit/84e29bb
