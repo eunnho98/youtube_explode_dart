@@ -1,5 +1,7 @@
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
+// import '../lib/youtube_explode_dart.dart';
+
 Future<void> main() async {
   final yt = YoutubeExplode();
 
@@ -7,10 +9,11 @@ Future<void> main() async {
   //final video = await yt.videos.get('UGzI-ABpy6k');
   //print(video.title); // ^ You can pass both video URLs or video IDs.
 
-  final manifest = await yt.videos.streams.getManifest('6BGmX2W6ano');
+  final manifest = await yt.videos.streams.getManifest('yIVRs6YSbOM');
 
   // Print all the available streams.
   print(manifest);
+  print(VideoId('https://www.youtube.com/shorts/yIVRs6YSbOM'));
 
   // Get the audio streams.
   //final audio = manifest.audioOnly;

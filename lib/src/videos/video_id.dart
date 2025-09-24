@@ -8,11 +8,14 @@ part 'video_id.g.dart';
 /// Encapsulates a valid YouTube video ID.
 @freezed
 abstract class VideoId with _$VideoId {
-  static final _regMatchExp = RegExp(r'youtube\..+?/watch.*?v=(.*?)(?:&|/|$)');
-  static final _shortMatchExp = RegExp(r'youtu\.be/(.*?)(?:\?|&|/|$)');
-  static final _embedMatchExp = RegExp(r'youtube\..+?/embed/(.*?)(?:\?|&|/|$)');
-  static final _shortsMatchExp =
-      RegExp(r'youtube\..+/shorts/([A-Za-z0-9-_]+$)');
+  static final _regMatchExp =
+      RegExp(r'(?:www\.|m\.)?youtube\.com/watch.*?[?&]v=([A-Za-z0-9_-]{11})');
+  static final _shortMatchExp =
+      RegExp(r'youtu\.be/([A-Za-z0-9_-]{11})(?:\?|&|/|$)');
+  static final _embedMatchExp = RegExp(
+      r'(?:www\.|m\.)?youtube\.com/embed/([A-Za-z0-9_-]{11})(?:\?|&|/|$)');
+  static final _shortsMatchExp = RegExp(
+      r'(?:www\.|m\.)?youtube\.com/shorts/([A-Za-z0-9_-]{11})(?:\?|&|/|$)');
 
   /// Initializes an instance of [VideoId] with a url or video id.
   factory VideoId(String idOrUrl) {
